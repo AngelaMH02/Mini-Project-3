@@ -45,12 +45,14 @@ const getProductById = async (req, res) => {
  */
 const createProduct = async (req, res) => {
   try {
-    const { title, description, price } = req.body;
+    const { title, description, price, productImg, status } = req.body;
 
     const product = await Product.create({
       title,
       description,
       price,
+      productImg,
+      status,
     });
 
     res.status(201).json({ success: true, data: product });
