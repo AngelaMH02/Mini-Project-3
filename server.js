@@ -4,9 +4,6 @@ const { sequelize } = require('./models');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 
-// Swagger setup
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
 // Import routers
 const { customerRouter } = require('./routes/customerRoutes');
 const { productRouter } = require('./routes/productRoutes');
@@ -15,6 +12,9 @@ const { salesRouter } = require('./routes/salesRoutes');
 
 const app = express();
 app.use(express.json());
+
+// Swagger setup
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Routes
 app.use('/api/customers', customerRouter);
