@@ -45,11 +45,11 @@ const getReceiptById = async (req, res) => {
  */
 const createReceipt = async (req, res) => {
   try {
-    const { purchaseDate, totalItems, paymentMethod } = req.body;
+    const { purchaseDate, paymentMethod, totalAmount } = req.body;
 
     const receipt = await Receipt.create({
       purchaseDate,
-      totalItems,
+      totalAmount,
       paymentMethod,
     });
 
