@@ -11,16 +11,26 @@ const importProducts = async (req, res) => {
 
     const createdProducts = await Promise.all(
       products.map((product) =>
-        Product.create({
-          title: product.title,
-          description: product.description,
-          price: product.price,
-          productImg:
-            product.thumbnail || (product.images && product.images[0]) || null,
-          status: 'available',
+        Product.findOrCreate({
+          where: { externalId: product.id },
+          defaults: {
+            externalId: product.id,
+            title: product.title,
+            description: product.description,
+            price: product.price,
+            productImg:
+              product.thumbnail ||
+              (product.images && product.images[0]) ||
+              null,
+            status: 'available',
+          },
         }),
       ),
     );
+
+    const created = createdProducts.filter(([__, created]) => created).length;
+    console.log(`Imported ${created} new products from external API.`);
+
     res.status(201).json({ success: true, data: createdProducts });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
