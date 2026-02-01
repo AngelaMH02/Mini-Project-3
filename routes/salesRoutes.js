@@ -16,8 +16,9 @@ router.get('/:id', getSaleById);
 
 // Create a new Sale
 router.post('/', createSale);
+
 // Update a Sale by ID
-router.put('/:id', updateSale);
+router.patch('/:id', updateSale);
 
 // Delete a Sale by ID
 router.delete('/:id', deleteSale);

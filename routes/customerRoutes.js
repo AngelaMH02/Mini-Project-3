@@ -18,7 +18,7 @@ router.get('/:id', getCustomerById);
 router.post('/', createCustomer);
 
 // Update a Customer by ID
-router.put('/:id', updateCustomer);
+router.patch('/:id', updateCustomer);
 
 // Delete a Customer by ID
 router.delete('/:id', deleteCustomer);

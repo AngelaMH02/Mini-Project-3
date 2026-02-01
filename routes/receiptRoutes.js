@@ -16,8 +16,9 @@ router.get('/:id', getReceiptById);
 
 // Create a new Receipt
 router.post('/', createReceipt);
+
 // Update a Receipt by ID
-router.put('/:id', updateReceipt);
+router.patch('/:id', updateReceipt);
 
 // Delete a Receipt by ID
 router.delete('/:id', deleteReceipt);
