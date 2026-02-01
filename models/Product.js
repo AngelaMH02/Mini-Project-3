@@ -29,6 +29,10 @@ const Product = sequelize.define('Product', {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  status: {
+    type: DataTypes.ENUM('sold', 'available'),
+    defaultValue: 'available',
+  },
 });
 
 module.exports = { Product };
