@@ -1,4 +1,31 @@
 const { Product } = require('../models/Product');
+const { fetchProducts } = require('../services/externalApiService');
+
+/**
+ * Import products from external API and save to database
+ */
+const importProducts = async (req, res) => {
+  try {
+    const limit = Number(req.query.limit || 10);
+    const products = await fetchProducts(limit);
+
+    const createdProducts = await Promise.all(
+      products.map((product) =>
+        Product.create({
+          title: product.title,
+          description: product.description,
+          price: product.price,
+          productImg:
+            product.thumbnail || (product.images && product.images[0]) || null,
+          status: 'available',
+        }),
+      ),
+    );
+    res.status(201).json({ success: true, data: createdProducts });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
 
 /**
  * Get all products
@@ -123,4 +150,5 @@ module.exports = {
   createProduct,
   updateProduct,
   deleteProduct,
+  importProducts,
 };
