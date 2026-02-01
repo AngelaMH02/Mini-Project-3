@@ -6,6 +6,10 @@ const { sequelize } = require('../config/db');
  * Represents the 'Receipts' table in MySQL
  */
 const Receipt = sequelize.define('Receipt', {
+  customerId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
   purchaseDate: {
     type: DataTypes.DATE,
     allowNull: false,
