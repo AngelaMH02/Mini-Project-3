@@ -43,11 +43,10 @@ const getSaleById = async (req, res) => {
  */
 const createSale = async (req, res) => {
   try {
-    const { totalSales, revenue } = req.body;
+    const { salePrice } = req.body;
 
     const sale = await Sales.create({
-      totalSales,
-      revenue,
+      salePrice,
     });
 
     res.status(201).json({ success: true, data: sale });
