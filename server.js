@@ -1,6 +1,11 @@
 const express = require('express');
 require('dotenv').config();
 const { sequelize } = require('./models');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+
+// Swagger setup
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Import routers
 const { customerRouter } = require('./routes/customerRoutes');
@@ -19,8 +24,10 @@ app.use('/api/sales', salesRouter);
 
 const startServer = async () => {
   try {
-    await sequelize.sync({ force: false });
-    console.log('✅ MySQL Connected and Models Synced');
+    await sequelize.authenticate();
+    console.log('🔗 Database connected successfully');
+    await sequelize.sync({ alter: true });
+    console.log('✅ Models Synced');
 
     const PORT = process.env.PORT || 3000;
     app.listen(PORT, () => {
