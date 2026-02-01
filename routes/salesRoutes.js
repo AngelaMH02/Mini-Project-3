@@ -23,5 +23,5 @@ router.put('/:id', updateSale);
 router.delete('/:id', deleteSale);
 
 module.exports = {
-  saleRouter: router,
+  salesRouter: router,
 };
