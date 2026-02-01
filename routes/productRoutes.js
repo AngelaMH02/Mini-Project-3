@@ -1,31 +1,26 @@
-let express = require('express');
-let router = express.Router();
-let Controllers = require('../controllers');
+const express = require('express');
+const router = express.Router();
+const {
+  getProducts,
+  getProductById,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+} = require('../controllers/productController');
 
 // Get all Products
-router.get('/', (req, res) => {
-  Controllers.productController.getProducts(req, res);
-});
+router.get('/', getProducts);
 
 // Get Product by ID
-router.get('/:id', (req, res) => {
-  Controllers.productController.getProductById(req, res);
-});
+router.get('/:id', getProductById);
 
 // Create a new Product
-router.post('/', (req, res) => {
-  Controllers.productController.createProduct(req, res);
-});
-
+router.post('/', createProduct);
 // Update a Product by ID
-router.put('/:id', (req, res) => {
-  Controllers.productController.updateProduct(req, res);
-});
+router.put('/:id', updateProduct);
 
 // Delete a Product by ID
-router.delete('/:id', (req, res) => {
-  Controllers.productController.deleteProduct(req, res);
-});
+router.delete('/:id', deleteProduct);
 
 module.exports = {
   productRouter: router,
