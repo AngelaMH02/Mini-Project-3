@@ -6,6 +6,11 @@ const { sequelize } = require('../config/db');
  * Represents the 'Products' table in MySQL
  */
 const Product = sequelize.define('Product', {
+  externalId: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    unique: true, // prevent duplicates
+  },
   title: {
     type: DataTypes.STRING,
     allowNull: false,
