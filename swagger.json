@@ -87,9 +87,9 @@
           "500": { "description": "Internal Server Error." }
         }
       },
-      "put": {
+      "patch": {
         "tags": ["Customers"],
-        "summary": "Update customer by ID",
+        "summary": "Partially update customer by ID",
         "parameters": [
           {
             "name": "id",
@@ -195,9 +195,9 @@
           "500": { "description": "Internal Server Error." }
         }
       },
-      "put": {
+      "patch": {
         "tags": ["Products"],
-        "summary": "Update product by ID",
+        "summary": "Partially update product by ID",
         "parameters": [
           {
             "name": "id",
@@ -304,9 +304,9 @@
           "500": { "description": "Internal Server Error." }
         }
       },
-      "put": {
+      "patch": {
         "tags": ["Receipts"],
-        "summary": "Update receipt by ID",
+        "summary": "Partially update receipt by ID",
         "parameters": [
           {
             "name": "id",
@@ -409,9 +409,9 @@
           "500": { "description": "Internal Server Error." }
         }
       },
-      "put": {
+      "patch": {
         "tags": ["Sales"],
-        "summary": "Update sales record by ID",
+        "summary": "Partially update sales record by ID",
         "parameters": [
           {
             "name": "id",
