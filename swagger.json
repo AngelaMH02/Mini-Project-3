@@ -68,7 +68,7 @@
         }
       }
     },
-    "api/customers/{id}": {
+    "/api/customers/{id}": {
       "get": {
         "tags": ["Customers"],
         "summary": "Get customer by ID",
@@ -292,11 +292,30 @@
             "schema": {
               "type": "object",
               "properties": {
+                "customerId": {
+                  "type": "integer",
+                  "description": "ID of the customer associated with the receipt"
+                },
                 "purchaseDate": { "type": "string", "format": "date-time" },
                 "totalAmount": { "type": "number" },
-                "paymentMethod": { "type": "string" }
+                "paymentMethod": {
+                  "type": "string",
+                  "enum": [
+                    "cash",
+                    "debit",
+                    "venmo",
+                    "cash_app",
+                    "paypal",
+                    "zelle"
+                  ]
+                }
               },
-              "required": ["purchaseDate", "totalAmount", "paymentMethod"]
+              "required": [
+                "customerId",
+                "purchaseDate",
+                "totalAmount",
+                "paymentMethod"
+              ]
             }
           }
         ],
@@ -345,9 +364,23 @@
             "schema": {
               "type": "object",
               "properties": {
+                "customerId": {
+                  "type": "integer",
+                  "description": "ID of the customer associated with the receipt"
+                },
                 "purchaseDate": { "type": "string", "format": "date-time" },
                 "totalAmount": { "type": "number" },
-                "paymentMethod": { "type": "string" }
+                "paymentMethod": {
+                  "type": "string",
+                  "enum": [
+                    "cash",
+                    "debit",
+                    "venmo",
+                    "cash_app",
+                    "paypal",
+                    "zelle"
+                  ]
+                }
               }
             }
           }
@@ -399,9 +432,20 @@
             "schema": {
               "type": "object",
               "properties": {
-                "salePrice": { "type": "number" }
+                "receiptId": {
+                  "type": "integer",
+                  "description": "ID of the associated receipt"
+                },
+                "productId": {
+                  "type": "integer",
+                  "description": "ID of the product sold"
+                },
+                "salePrice": {
+                  "type": "number",
+                  "description": "Price at which the product was sold"
+                }
               },
-              "required": ["salePrice"]
+              "required": ["receiptId", "productId", "salePrice"]
             }
           }
         ],
@@ -450,7 +494,18 @@
             "schema": {
               "type": "object",
               "properties": {
-                "salePrice": { "type": "number" }
+                "receiptId": {
+                  "type": "integer",
+                  "description": "ID of the associated receipt"
+                },
+                "productId": {
+                  "type": "integer",
+                  "description": "ID of the product sold"
+                },
+                "salePrice": {
+                  "type": "number",
+                  "description": "Price at which the product was sold"
+                }
               }
             }
           }
