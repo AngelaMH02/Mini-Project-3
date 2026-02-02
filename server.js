@@ -9,6 +9,7 @@ const { customerRouter } = require('./routes/customerRoutes');
 const { productRouter } = require('./routes/productRoutes');
 const { receiptRouter } = require('./routes/receiptRoutes');
 const { salesRouter } = require('./routes/salesRoutes');
+const { reportsRouter } = require('./routes/reportsRoutes');
 
 const app = express();
 app.use(express.json());
@@ -21,6 +22,7 @@ app.use('/api/customers', customerRouter);
 app.use('/api/products', productRouter);
 app.use('/api/receipts', receiptRouter);
 app.use('/api/sales', salesRouter);
+app.use('/api/reports', reportsRouter);
 
 const startServer = async () => {
   try {
