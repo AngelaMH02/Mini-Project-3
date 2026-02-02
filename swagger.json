@@ -27,6 +27,14 @@
     {
       "name": "Sales",
       "description": "API for Sales operations"
+    },
+    {
+      "name": "Import",
+      "description": "API for importing products from external API"
+    },
+    {
+      "name": "Reports",
+      "description": "API for generating reports"
     }
   ],
   "schemes": ["http"],
@@ -532,6 +540,135 @@
         "responses": {
           "200": { "description": "Sales record deleted successfully." },
           "404": { "description": "Sales record not found." },
+          "500": { "description": "Internal Server Error." }
+        }
+      }
+    },
+    "/api/reports/summary": {
+      "get": {
+        "tags": ["Reports"],
+        "summary": "Get total revenue and total items sold",
+        "responses": {
+          "200": {
+            "description": "Summary metrics",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "totalRevenue": { "type": "number" },
+                "totalItemsSold": { "type": "integer" }
+              }
+            }
+          },
+          "500": { "description": "Internal Server Error." }
+        }
+      }
+    },
+
+    "/api/reports/revenue-by-date": {
+      "get": {
+        "tags": ["Reports"],
+        "summary": "Get revenue grouped by day",
+        "responses": {
+          "200": {
+            "description": "Revenue by day",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "day": { "type": "string", "example": "2026-02-01" },
+                  "revenue": { "type": "number" }
+                }
+              }
+            }
+          },
+          "500": { "description": "Internal Server Error." }
+        }
+      }
+    },
+
+    "/api/reports/revenue-by-payment": {
+      "get": {
+        "tags": ["Reports"],
+        "summary": "Get revenue grouped by payment method",
+        "responses": {
+          "200": {
+            "description": "Revenue by payment method",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "paymentMethod": {
+                    "type": "string",
+                    "enum": [
+                      "cash",
+                      "debit",
+                      "venmo",
+                      "cash_app",
+                      "paypal",
+                      "zelle"
+                    ]
+                  },
+                  "revenue": { "type": "number" }
+                }
+              }
+            }
+          },
+          "500": { "description": "Internal Server Error." }
+        }
+      }
+    },
+    "/api/reports/total-customers": {
+      "get": {
+        "tags": ["Reports"],
+        "summary": "Get total number of customers",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved total customers.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": { "type": "boolean" },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "totalCustomers": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          },
+          "500": { "description": "Internal Server Error." }
+        }
+      }
+    },
+    "/api/reports/sold-products": {
+      "get": {
+        "tags": ["Reports"],
+        "summary": "Get details for sold products (includes title and totals)",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved sold product details.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "productId": { "type": "integer" },
+                  "timesSold": { "type": "integer" },
+                  "revenue": { "type": "number" },
+                  "Product": {
+                    "type": "object",
+                    "properties": {
+                      "title": { "type": "string" },
+                      "productImg": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          },
           "500": { "description": "Internal Server Error." }
         }
       }
