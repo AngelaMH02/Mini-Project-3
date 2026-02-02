@@ -109,7 +109,11 @@ const deleteReceipt = async (req, res) => {
 
     res
       .status(200)
-      .json({ success: true, message: 'Receipt deleted successfully' });
+      .json({
+        success: true,
+        message: 'Receipt deleted successfully',
+        data: deleted,
+      });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
