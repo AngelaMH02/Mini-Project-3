@@ -29,10 +29,6 @@
       "description": "API for Sales operations"
     },
     {
-      "name": "Import",
-      "description": "API for importing products from external API"
-    },
-    {
       "name": "Reports",
       "description": "API for generating reports"
     }
