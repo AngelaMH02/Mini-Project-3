@@ -1,0 +1,673 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Mini Project 3 API",
+    "description": "Customer, Product, Receipt, and Sales API",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Customer",
+      "description": "API for Customer operations"
+    },
+    {
+      "name": "Product",
+      "description": "API for Product operations"
+    },
+    {
+      "name": "Receipt",
+      "description": "API for Receipt operations"
+    },
+    {
+      "name": "Sales",
+      "description": "API for Sales operations"
+    },
+    {
+      "name": "Reports",
+      "description": "API for generating reports"
+    }
+  ],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/api/customers": {
+      "get": {
+        "tags": ["Customers"],
+        "summary": "Get all customers",
+        "responses": {
+          "200": { "description": "Successfully retrieved customers." },
+          "500": { "description": "Internal Server Error." }
+        }
+      },
+      "post": {
+        "tags": ["Customers"],
+        "summary": "Create a new customer",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Customer object that needs to be added",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "email": { "type": "string" }
+              },
+              "required": ["name", "email"]
+            }
+          }
+        ],
+        "responses": {
+          "201": { "description": "Customer created successfully." },
+          "400": { "description": "Bad Request." },
+          "500": { "description": "Internal Server Error." }
+        }
+      }
+    },
+    "/api/customers/{id}": {
+      "get": {
+        "tags": ["Customers"],
+        "summary": "Get customer by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID of the customer to retrieve"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Successfully retrieved customer." },
+          "404": { "description": "Customer not found." },
+          "500": { "description": "Internal Server Error." }
+        }
+      },
+      "patch": {
+        "tags": ["Customers"],
+        "summary": "Partially update customer by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID of the customer to update"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Customer object that needs to be updated",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "email": { "type": "string" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Customer updated successfully." },
+          "400": { "description": "Bad Request." },
+          "404": { "description": "Customer not found." },
+          "500": { "description": "Internal Server Error." }
+        }
+      },
+      "delete": {
+        "tags": ["Customers"],
+        "summary": "Delete customer by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID of the customer to delete"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Customer deleted successfully." },
+          "404": { "description": "Customer not found." },
+          "500": { "description": "Internal Server Error." }
+        }
+      }
+    },
+    "/api/products/import": {
+      "post": {
+        "tags": ["Products"],
+        "summary": "Import products from external API",
+        "description": "Fetches products from an external API and inserts new ones into the database. Uses externalId to prevent duplicates.",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of products to import",
+            "required": false,
+            "type": "integer",
+            "default": 10
+          }
+        ],
+        "responses": {
+          "201": { "description": "Products imported successfully." },
+          "400": { "description": "Bad Request." },
+          "500": { "description": "Internal Server Error." }
+        }
+      }
+    },
+    "/api/products": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Get all products",
+        "responses": {
+          "200": { "description": "Successfully retrieved products." },
+          "500": { "description": "Internal Server Error." }
+        }
+      },
+      "post": {
+        "tags": ["Products"],
+        "summary": "Create new products",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Product object that needs to be added",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": { "type": "string" },
+                "description": { "type": "string" },
+                "price": { "type": "number" },
+                "productImg": { "type": "string" },
+                "status": { "type": "string", "enum": ["sold", "available"] }
+              },
+              "required": ["title", "description", "price"]
+            }
+          }
+        ],
+        "responses": {
+          "201": { "description": "Products created successfully." },
+          "400": { "description": "Bad Request." },
+          "500": { "description": "Internal Server Error." }
+        }
+      }
+    },
+    "/api/products/{id}": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Get product by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID of the product to retrieve"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Successfully retrieved product." },
+          "404": { "description": "Product not found." },
+          "500": { "description": "Internal Server Error." }
+        }
+      },
+      "patch": {
+        "tags": ["Products"],
+        "summary": "Partially update product by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID of the product to update"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Product object that needs to be updated",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": { "type": "string" },
+                "description": { "type": "string" },
+                "price": { "type": "number" },
+                "productImg": { "type": "string" },
+                "status": { "type": "string", "enum": ["sold", "available"] }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Product updated successfully." },
+          "400": { "description": "Bad Request." },
+          "404": { "description": "Product not found." },
+          "500": { "description": "Internal Server Error." }
+        }
+      },
+      "delete": {
+        "tags": ["Products"],
+        "summary": "Delete product by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID of the product to delete"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Product deleted successfully." },
+          "404": { "description": "Product not found." },
+          "500": { "description": "Internal Server Error." }
+        }
+      }
+    },
+    "/api/receipts": {
+      "get": {
+        "tags": ["Receipts"],
+        "summary": "Get all receipts",
+        "responses": {
+          "200": { "description": "Successfully retrieved receipts." },
+          "500": { "description": "Internal Server Error." }
+        }
+      },
+      "post": {
+        "tags": ["Receipts"],
+        "summary": "Create a new receipt",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Receipt object that needs to be added",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "customerId": {
+                  "type": "integer",
+                  "description": "ID of the customer associated with the receipt"
+                },
+                "purchaseDate": { "type": "string", "format": "date-time" },
+                "totalAmount": { "type": "number" },
+                "paymentMethod": {
+                  "type": "string",
+                  "enum": [
+                    "cash",
+                    "debit",
+                    "venmo",
+                    "cash_app",
+                    "paypal",
+                    "zelle"
+                  ]
+                }
+              },
+              "required": [
+                "customerId",
+                "purchaseDate",
+                "totalAmount",
+                "paymentMethod"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": { "description": "Receipt created successfully." },
+          "400": { "description": "Bad Request." },
+          "500": { "description": "Internal Server Error." }
+        }
+      }
+    },
+    "/api/receipts/{id}": {
+      "get": {
+        "tags": ["Receipts"],
+        "summary": "Get receipt by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID of the receipt to retrieve"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Successfully retrieved receipt." },
+          "404": { "description": "Receipt not found." },
+          "500": { "description": "Internal Server Error." }
+        }
+      },
+      "patch": {
+        "tags": ["Receipts"],
+        "summary": "Partially update receipt by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID of the receipt to update"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Receipt object that needs to be updated",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "customerId": {
+                  "type": "integer",
+                  "description": "ID of the customer associated with the receipt"
+                },
+                "purchaseDate": { "type": "string", "format": "date-time" },
+                "totalAmount": { "type": "number" },
+                "paymentMethod": {
+                  "type": "string",
+                  "enum": [
+                    "cash",
+                    "debit",
+                    "venmo",
+                    "cash_app",
+                    "paypal",
+                    "zelle"
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Receipt updated successfully." },
+          "400": { "description": "Bad Request." },
+          "404": { "description": "Receipt not found." },
+          "500": { "description": "Internal Server Error." }
+        }
+      },
+      "delete": {
+        "tags": ["Receipts"],
+        "summary": "Delete receipt by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID of the receipt to delete"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Receipt deleted successfully." },
+          "404": { "description": "Receipt not found." },
+          "500": { "description": "Internal Server Error." }
+        }
+      }
+    },
+    "/api/sales": {
+      "get": {
+        "tags": ["Sales"],
+        "summary": "Get all sales records",
+        "responses": {
+          "200": { "description": "Successfully retrieved sales records." },
+          "500": { "description": "Internal Server Error." }
+        }
+      },
+      "post": {
+        "tags": ["Sales"],
+        "summary": "Create a new sales record",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Sales object that needs to be added",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "receiptId": {
+                  "type": "integer",
+                  "description": "ID of the associated receipt"
+                },
+                "productId": {
+                  "type": "integer",
+                  "description": "ID of the product sold"
+                },
+                "salePrice": {
+                  "type": "number",
+                  "description": "Price at which the product was sold"
+                }
+              },
+              "required": ["receiptId", "productId", "salePrice"]
+            }
+          }
+        ],
+        "responses": {
+          "201": { "description": "Sales record created successfully." },
+          "400": { "description": "Bad Request." },
+          "500": { "description": "Internal Server Error." }
+        }
+      }
+    },
+    "/api/sales/{id}": {
+      "get": {
+        "tags": ["Sales"],
+        "summary": "Get sales record by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID of the sales record to retrieve"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Successfully retrieved sales record." },
+          "404": { "description": "Sales record not found." },
+          "500": { "description": "Internal Server Error." }
+        }
+      },
+      "patch": {
+        "tags": ["Sales"],
+        "summary": "Partially update sales record by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID of the sales record to update"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Sales object that needs to be updated",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "receiptId": {
+                  "type": "integer",
+                  "description": "ID of the associated receipt"
+                },
+                "productId": {
+                  "type": "integer",
+                  "description": "ID of the product sold"
+                },
+                "salePrice": {
+                  "type": "number",
+                  "description": "Price at which the product was sold"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Sales record updated successfully." },
+          "400": { "description": "Bad Request." },
+          "404": { "description": "Sales record not found." },
+          "500": { "description": "Internal Server Error." }
+        }
+      },
+      "delete": {
+        "tags": ["Sales"],
+        "summary": "Delete sales record by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID of the sales record to delete"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Sales record deleted successfully." },
+          "404": { "description": "Sales record not found." },
+          "500": { "description": "Internal Server Error." }
+        }
+      }
+    },
+    "/api/reports/summary": {
+      "get": {
+        "tags": ["Reports"],
+        "summary": "Get total revenue and total items sold",
+        "responses": {
+          "200": {
+            "description": "Summary metrics",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "totalRevenue": { "type": "number" },
+                "totalItemsSold": { "type": "integer" }
+              }
+            }
+          },
+          "500": { "description": "Internal Server Error." }
+        }
+      }
+    },
+
+    "/api/reports/revenue-by-date": {
+      "get": {
+        "tags": ["Reports"],
+        "summary": "Get revenue grouped by day",
+        "responses": {
+          "200": {
+            "description": "Revenue by day",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "day": { "type": "string", "example": "2026-02-01" },
+                  "revenue": { "type": "number" }
+                }
+              }
+            }
+          },
+          "500": { "description": "Internal Server Error." }
+        }
+      }
+    },
+
+    "/api/reports/revenue-by-payment": {
+      "get": {
+        "tags": ["Reports"],
+        "summary": "Get revenue grouped by payment method",
+        "responses": {
+          "200": {
+            "description": "Revenue by payment method",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "paymentMethod": {
+                    "type": "string",
+                    "enum": [
+                      "cash",
+                      "debit",
+                      "venmo",
+                      "cash_app",
+                      "paypal",
+                      "zelle"
+                    ]
+                  },
+                  "revenue": { "type": "number" }
+                }
+              }
+            }
+          },
+          "500": { "description": "Internal Server Error." }
+        }
+      }
+    },
+    "/api/reports/total-customers": {
+      "get": {
+        "tags": ["Reports"],
+        "summary": "Get total number of customers",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved total customers.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": { "type": "boolean" },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "totalCustomers": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          },
+          "500": { "description": "Internal Server Error." }
+        }
+      }
+    },
+    "/api/reports/sold-products": {
+      "get": {
+        "tags": ["Reports"],
+        "summary": "Get details for sold products (includes title and totals)",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved sold product details.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "productId": { "type": "integer" },
+                  "timesSold": { "type": "integer" },
+                  "revenue": { "type": "number" },
+                  "Product": {
+                    "type": "object",
+                    "properties": {
+                      "title": { "type": "string" },
+                      "productImg": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": { "description": "Internal Server Error." }
+        }
+      }
+    }
+  }
+}
