@@ -26,7 +26,7 @@ const Receipt = sequelize.define('Receipt', {
   paymentMethod: {
     type: DataTypes.ENUM(
       'cash',
-      'debit_card',
+      'debit',
       'venmo',
       'cash_app',
       'paypal',
