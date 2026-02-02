@@ -45,9 +45,10 @@ const getReceiptById = async (req, res) => {
  */
 const createReceipt = async (req, res) => {
   try {
-    const { purchaseDate, paymentMethod, totalAmount } = req.body;
+    const { customerId, purchaseDate, paymentMethod, totalAmount } = req.body;
 
     const receipt = await Receipt.create({
+      customerId,
       purchaseDate,
       totalAmount,
       paymentMethod,
@@ -107,13 +108,11 @@ const deleteReceipt = async (req, res) => {
         .json({ success: false, error: 'Receipt not found' });
     }
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: 'Receipt deleted successfully',
-        data: deleted,
-      });
+    res.status(200).json({
+      success: true,
+      message: 'Receipt deleted successfully',
+      data: deleted,
+    });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
