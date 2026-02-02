@@ -138,6 +138,28 @@
         }
       }
     },
+    "/api/products/import": {
+      "post": {
+        "tags": ["Products"],
+        "summary": "Import products from external API",
+        "description": "Fetches products from an external API and inserts new ones into the database. Uses externalId to prevent duplicates.",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of products to import",
+            "required": false,
+            "type": "integer",
+            "default": 10
+          }
+        ],
+        "responses": {
+          "201": { "description": "Products imported successfully." },
+          "400": { "description": "Bad Request." },
+          "500": { "description": "Internal Server Error." }
+        }
+      }
+    },
     "/api/products": {
       "get": {
         "tags": ["Products"],
