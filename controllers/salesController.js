@@ -43,9 +43,11 @@ const getSaleById = async (req, res) => {
  */
 const createSale = async (req, res) => {
   try {
-    const { salePrice } = req.body;
+    const { receiptId, productId, salePrice } = req.body;
 
     const sale = await Sales.create({
+      receiptId,
+      productId,
       salePrice,
     });
 
@@ -99,13 +101,11 @@ const deleteSale = async (req, res) => {
       return res.status(404).json({ success: false, error: 'Sale not found' });
     }
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: 'Sale deleted successfully',
-        data: deleted,
-      });
+    res.status(200).json({
+      success: true,
+      message: 'Sale deleted successfully',
+      data: deleted,
+    });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
